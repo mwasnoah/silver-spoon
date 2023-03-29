@@ -9,7 +9,7 @@
 }
 
 /* root values */
-:root{
+#root{
     --container-color: #1a1e21;
     --second-color: rgba(77, 228, 255);
     --text-color: #172317;
@@ -48,13 +48,7 @@ a{
 }
 
 /* Header */
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 200;
-}
+
 
 header.shadow{
     background: var(--bg-color);
@@ -73,10 +67,10 @@ header.shadow .logo{
     padding: 18px 0;
 }
 
-.logo{
+.logo a{
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--bg-color);
+    color: #7807079c;
 }
 
 .logo span{
@@ -100,7 +94,7 @@ header.shadow .logo{
 .home{
     width: 100%;
     min-height: 440px;
-    background: url("images/banner2.png");
+    background: url("assets/images/banner2.png");
     display: grid;
     justify-content: center;
     align-items: center;
@@ -270,7 +264,7 @@ header.shadow .logo{
     font-weight: 500;
 }
 
-footer{
+footer .page{
     position: relative;
     width: 100%;
     height: auto;
@@ -313,7 +307,7 @@ footer{
     background: #7807079c;
 }
 
-footer p{
+footer .page > p{
     color: #fff;
 }
 

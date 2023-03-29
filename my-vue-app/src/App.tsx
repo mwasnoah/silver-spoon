@@ -1,12 +1,57 @@
-import { useState } from 'react'
 import './App.css'
+import about from "./assets/images/about.png";
+import img1 from "./assets/images/img1.jpg";
+import test1 from "./assets/images/testi1.jpg"
+import img2 from "./assets/images/img2.jpg"
+import img2i from "./assets//images/testi1.jpg";
+import img3 from "./assets/images/img3.jpg";
+import img4 from "./assets/images/img4.jpg";
+import img5 from "./assets/images/img5.jpg"
+import img6 from "./assets/images/img6.jpg"
+import img8 from "./assets/images/img8.jpg";
+import img7 from "./assets/images/img7.jpg";
+import img10 from "./assets/images/img10.jpg";
+import testi1 from "./assets/images/testi1.jpg";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    Button,
+    Input ,
+    ModalCloseButton, useDisclosure,
+} from '@chakra-ui/react';
 
 function App() {
-
-
+    const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <div className="App">
+            <>
+
+
+                <Modal colorScheme={"blackAlpha"} isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader color={"black"}>Sign In</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                        <Input m={3} placeholder='Email' />
+                        <Input m={3} placeholder='Password' />
+                        </ModalBody>
+
+                        <ModalFooter color={"white"}>
+                            <Button colorScheme='blue' mr={3} onClick={onClose}>
+                                Close
+                            </Button>
+                            <Button colorScheme='blue'>Login</Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </>
             <html lang="en">
+
 
                 <head>
                     <meta charSet="UTF-8" />
@@ -19,12 +64,14 @@ function App() {
                 </head>
 
                 <body>
-                    <header>
+                 
                         <div className="nav container">
                             <a href="#" className="logo">Ace <span>Sports</span></a>
-                            <a href="#" className="login">Sign Up</a>
+
+                            <Button className="login" onClick={onOpen}>login</Button>
+
                         </div>
-                    </header>
+                    
 
                     <section className="home" id="home">
                         <div className="home-text container">
@@ -43,32 +90,27 @@ function App() {
                             <a href="#" className="btn2">Read more</a>
                         </div>
                         <div className="imgBx">
-                            <img src="../public/images/about.png" alt="" className="fitBg" />
+                            <img src={about} alt="" className="fitBg" />
                         </div>
                     </section>
 
-                    <div className="post-filter container">
-                        <span className="filter-item active-filter" data-filter="all">All</span>
-                        <span className="filter-item" data-filter="rugby">Rugby</span>
-                        <span className="filter-item" data-filter="football">Football</span>
-                        <span className="filter-item" data-filter="basketball">Basketball</span>
-                    </div>
+                 
 
                     <div className="post container">
                         <div className="post-box Rugby">
-                            <img src="../public/images/img1.jpg" alt="" className="post-img" />
+                            <img src={img1} alt="" className="post-img" />
                             <h2 className="category">Rugby</h2>
                             <a href="#" className="post-title">AP Warriors overun The Cooperative University Farus</a>
                             <span className="post-date">16 Feb 2023</span>
                             <p className="post-description">Warriors forwards dominated the scrums and lineouts, consistently winning possession and allowing their backs to launch relentless attacks on The Cooperative University Farus's defense. The ball was moved quickly and efficiently through the hands of the Team B players, who displayed excellent ball-handling skills and a great sense of teamwork.</p>
                             <div className="profile">
-                                <img src="../public/images/testi1.jpg" alt="" className="profile-img" />
+                                <img src={test1} alt="" className="profile-img" />
                                 <span className="profile-name">Mwas</span>
                             </div>
                         </div>
 
                         <div className="post-box Rugby">
-                            <img src="../public/images/img2.jpg" alt="" className="post-img" />
+                            <img src={img2} alt="" className="post-img" />
                             <h2 className="category">Rugby</h2>
                             <a href="#" className="post-title">Varsity champ gets the call</a>
                             <span className="post-date">20 Feb 2023</span>
@@ -80,49 +122,49 @@ function App() {
                                 In conclusion, Daniel Kiluu's call up to the Uganda national team is a significant achievement and a testament to his hard work and dedication. It is also a reflection of the quality of rugby players being produced by The Cooperative University. Kiluu's success should serve as an inspiration to other aspiring rugby players and a source of pride for the university. We wish Kiluu all the best as he embarks on this new chapter in his rugby career.
                             </p>
                             <div className="profile">
-                                <img src="../public/images/testi1.jpg" alt="" className="profile-img" />
+                                <img src={img2i} alt="" className="profile-img" />
                                 <span className="profile-name">Mwas</span>
                             </div>
                         </div>
 
                         <div className="post-box Football">
-                            <img src="../public/images/img3.jpg" alt="" className="post-img" />
+                            <img src={img3} alt="" className="post-img" />
                             <h2 className="category">Football</h2>
                             <a href="#" className="post-title">Footbal</a>
                             <span className="post-date">23 Feb 2023</span>
                             <p className="post-description">Champ</p>
                             <div className="profile">
-                                <img src="../public/images/testi1.jpg" alt="" className="profile-img" />
+                                <img src={testi1} alt="" className="profile-img" />
                                 <span className="profile-name">Mwas</span>
                             </div>
                         </div>
 
                         <div className="post-box Rugby">
-                            <img src="../public/images/img4.jpg" alt="" className="post-img" />
+                            <img src={img4} alt="" className="post-img" />
                             <h2 className="category">Rugby</h2>
                             <a href="#" className="post-title">How to get a job while sleeping</a>
                             <span className="post-date">25 Feb 2023</span>
                             <p className="post-description">Jakpizzo</p>
                             <div className="profile">
-                                <img src="../public/images/testi1.jpg" alt="" className="profile-img" />
+                                <img src={testi1} alt="" className="profile-img" />
                                 <span className="profile-name">Mwas</span>
                             </div>
                         </div>
 
                         <div className="post-box Rugby">
-                            <img src="../public/images/img5.jpg" alt="" className="post-img" />
+                            <img src={img5} alt="" className="post-img" />
                             <h2 className="category">Rugby</h2>
                             <a href="#" className="post-title">Winning from Behind</a>
                             <span className="post-date">1 Mar 2023</span>
                             <p className="post-description">Ngl they had us in the firsthalf</p>
                             <div className="profile">
-                                <img src="../public/images/testi1.jpg" alt="" className="profile-img" />
+                                <img src={testi1} alt="" className="profile-img" />
                                 <span className="profile-name">Mwas</span>
                             </div>
                         </div>
 
                         <div className="post-box Basketball">
-                            <img src="../public/images/img6.jpg" alt="" className="post-img" />
+                            <img src={img6} alt="" className="post-img" />
                             <h2 className="category">Basketball</h2>
                             <a href="#" className="post-title">Hounds on rampage</a>
                             <span className="post-date">9 Mar 2023</span>
@@ -134,13 +176,13 @@ function App() {
                                 The Hounds' victory over the Monks will no doubt be remembered as a highlight of the varsity league season, and it will be interesting to see how they continue to perform in future games. With the confidence and momentum gained from this win, the Hounds may well be a team to watch as they continue their pursuit of success in the world of collegiate basketball.
                             </p>
                             <div className="profile">
-                                <img src="../public/images/testi1.jpg" alt="" className="profile-img" />
+                                <img src={testi1} alt="" className="profile-img" />
                                 <span className="profile-name">Mwas</span>
                             </div>
                         </div>
 
                         <div className="post-box Rugby">
-                            <img src="../public/images/img7.jpg" alt="" className="post-img" />
+                            <img src={img7} alt="" className="post-img" />
                             <h2 className="category">Rugby</h2>
                             <a href="#" className="post-title">Kabras Win the Kenya Cup</a>
                             <span className="post-date">11 Mar 2023</span>
@@ -153,13 +195,13 @@ function App() {
                                 Overall, the Kabras Rugby versus KCB match was a thrilling encounter that showcased the very best of Kenyan rugby. It was a testament to the skill and dedication of both teams, and a reminder of the incredible talent that exists in the Kenyan rugby scene. Kabras Rugby emerged as the deserved winners, and their fans will undoubtedly be celebrating this impressive victory for a long time to come.
                             </p>
                             <div className="profile">
-                                <img src="../public/images/testi1.jpg" alt="" className="profile-img" />
+                                <img src={testi1} alt="" className="profile-img" />
                                 <span className="profile-name">Mwas</span>
                             </div>
                         </div>
 
                         <div className="post-box Basketball">
-                            <img src="../public/images/img8.jpg" alt="" className="post-img" />
+                            <img src={img8} alt="" className="post-img" />
                             <h2 className="category">Basketball</h2>
                             <a href="#" className="post-title">Giants on winning ways</a>
                             <span className="post-date">16 Mar 2023</span>
@@ -172,13 +214,13 @@ function App() {
                                 In conclusion, the Strathmore University Giants' victory on the 16th of March 2023 is a clear indication of their skill and determination. The team's success is a result of the excellent coaching, talented players, and rigorous training they have invested in. With their continued hard work and dedication, the Giants are well on their way to becoming one of the top basketball teams in Africa.
                             </p>
                             <div className="profile">
-                                <img src="../public/images/testi1.jpg" alt="" className="profile-img" />
+                                <img src={testi1} alt="" className="profile-img" />
                                 <span className="profile-name">Mwas</span>
                             </div>
                         </div>
 
                         <div className="post-box Football">
-                            <img src="../public/images/img10.jpg" alt="" className="post-img" />
+                            <img src={img10} alt="" className="post-img" />
                             <h2 className="category">Football</h2>
                             <a href="#" className="post-title">UEFA Draw is Out!</a>
                             <span className="post-date">17 Mar 2023</span>
@@ -190,13 +232,13 @@ function App() {
                                 In conclusion, the quarterfinal draw for the UEFA Champions League promises to be an exciting stage of the competition. Fans can look forward to watching some of Europe's best teams go head-to-head in their quest for glory. The matches are scheduled to take place in April, and football enthusiasts around the world will be eagerly anticipating these fixtures.
                             </p>
                             <div className="profile">
-                                <img src="../public/images/testi1.jpg" alt="" className="profile-img" />
+                                <img src={testi1} alt="" className="profile-img" />
                                 <span className="profile-name">Mwas</span>
                             </div>
                         </div>
                     </div>
 
-                    <footer>
+                    <footer className='page'>
                         <div className="footer-container">
                             <div className="sec aboutus">
                                 <h2>About Us</h2>
