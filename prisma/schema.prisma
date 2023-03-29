@@ -23,11 +23,12 @@ model Posts {
   id          Int       @id @default(autoincrement())
   title       String
   createdAt   DateTime  @default(now())
-  content     String @db.LongText
+  banner      String?
+  content     String    @db.LongText
   author_id   Int?
   category_id Int?
-  author      User?      @relation(fields: [author_id], references: [id])
-  category    Category?  @relation(fields: [category_id], references: [id])
+  author      User?     @relation(fields: [author_id], references: [id])
+  category    Category? @relation(fields: [category_id], references: [id])
   Comment     Comment[]
 }
 

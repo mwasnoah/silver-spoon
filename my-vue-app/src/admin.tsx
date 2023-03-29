@@ -19,7 +19,7 @@ function Admin() {
                 setContent(e.target.value);
             }} m={3} placeholder='article' />
             <Button loadingText="submitting" isLoading={isSubmitting} onClick={async () => {
-                setIsSubmitting(true);
+                //setIsSubmitting(true);
                 fetch("http://localhost:3001/addBlog", {
                     method: "POST", 
                     headers: {
@@ -28,7 +28,7 @@ function Admin() {
                        
                     }, body: JSON.stringify({ title: title, content: content })
                 }).then(data =>data.json()).then(data=>{ 
-                    setIsSubmitting(false);
+                    //setIsSubmitting(false);
                     if (data.status == "success") {
                         toast({
                             title: 'Post submitted',

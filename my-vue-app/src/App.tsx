@@ -23,8 +23,18 @@ import {
     Input ,
     ModalCloseButton, useDisclosure,
 } from '@chakra-ui/react';
+import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useEffect, useState } from 'react';
 
 function App() {
+    const [blogs,setBlogs] = useState();
+    useEffect(()=>{
+        fetch("http://localhost:3001/blogs").then(data=>
+            data.json()
+        ).then(data=>{
+            console.log(data);
+            setBlogs(data.posts)
+        })
+    },[])
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <div className="App">
@@ -97,11 +107,26 @@ function App() {
                  
 
                     <div className="post container">
+                        {blogs?.map((blog: { title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; createdAt: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; },index: any)=>{
+                            return(
+                                <div className="post-box Rugby">
+                                <img src={img1} alt="" className="post-img" />
+                                <h2 className="category">Rugby</h2>
+                                <a href="#" className="post-title">{blog.title}</a>
+                                <span className="post-date">{blog.createdAt}</span>
+                                <p className="post-description">{blog.content}.</p>
+                                <div className="profile">
+                                    <img src={test1} alt="" className="profile-img" />
+                                    <span className="profile-name">Mwas</span>
+                                </div>
+                            </div>
+                            )
+                        })}
                         <div className="post-box Rugby">
                             <img src={img1} alt="" className="post-img" />
                             <h2 className="category">Rugby</h2>
                             <a href="#" className="post-title">AP Warriors overun The Cooperative University Farus</a>
-                            <span className="post-date">16 Feb 2023</span>
+                            <span className="post-date"></span>
                             <p className="post-description">Warriors forwards dominated the scrums and lineouts, consistently winning possession and allowing their backs to launch relentless attacks on The Cooperative University Farus's defense. The ball was moved quickly and efficiently through the hands of the Team B players, who displayed excellent ball-handling skills and a great sense of teamwork.</p>
                             <div className="profile">
                                 <img src={test1} alt="" className="profile-img" />
