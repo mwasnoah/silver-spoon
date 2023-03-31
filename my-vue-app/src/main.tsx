@@ -10,6 +10,7 @@ import {
   Route,
   Link,
 } from "react-router-dom";
+import Blog from './Blog'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,7 +20,10 @@ const router = createBrowserRouter([
   {
     path: "admin",
     element: (<Admin/>),
-  },
+  },{
+    path:"blog/:id",
+    element:(<Blog/>)
+  }
 ]);
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
  

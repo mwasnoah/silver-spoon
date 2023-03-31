@@ -20,21 +20,22 @@ import {
     ModalFooter,
     ModalBody,
     Button,
-    Input ,
+    Input,
     ModalCloseButton, useDisclosure,
 } from '@chakra-ui/react';
 import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function App() {
-    const [blogs,setBlogs] = useState();
-    useEffect(()=>{
-        fetch("http://localhost:3001/blogs").then(data=>
+    const [blogs, setBlogs] = useState<[]>();
+    useEffect(() => {
+        fetch("http://localhost:3001/blogs").then(data =>
             data.json()
-        ).then(data=>{
+        ).then(data => {
             console.log(data);
             setBlogs(data.posts)
         })
-    },[])
+    }, [])
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <div className="App">
@@ -47,8 +48,8 @@ function App() {
                         <ModalHeader color={"black"}>Sign In</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
-                        <Input m={3} placeholder='Email' />
-                        <Input m={3} placeholder='Password' />
+                            <Input m={3} placeholder='Email' />
+                            <Input m={3} placeholder='Password' />
                         </ModalBody>
 
                         <ModalFooter color={"white"}>
@@ -74,14 +75,14 @@ function App() {
                 </head>
 
                 <body>
-                 
-                        <div className="nav container">
-                            <a href="#" className="logo">Ace <span>Sports</span></a>
 
-                            <Button className="login" onClick={onOpen}>login</Button>
+                    <div className="nav container">
+                        <a href="#" className="logo">Ace <span>Sports</span></a>
 
-                        </div>
-                    
+                        <Button className="login" onClick={onOpen}>login</Button>
+
+                    </div>
+
 
                     <section className="home" id="home">
                         <div className="home-text container">
@@ -104,24 +105,27 @@ function App() {
                         </div>
                     </section>
 
-                 
+
 
                     <div className="post container">
-                        {blogs?.map((blog: { title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; createdAt: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; },index: any)=>{
-                            return(
+                        {blogs?.map((blog: {
+                            id: any; title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; createdAt: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined;
+                        }, index: any) => {
+                            return (
                                 <div className="post-box Rugby">
-                                <img src={img1} alt="" className="post-img" />
-                                <h2 className="category">Rugby</h2>
-                                <a href="#" className="post-title">{blog.title}</a>
-                                <span className="post-date">{blog.createdAt}</span>
-                                <p className="post-description">{blog.content}.</p>
-                                <div className="profile">
-                                    <img src={test1} alt="" className="profile-img" />
-                                    <span className="profile-name">Mwas</span>
+                                    <img src={img1} alt="" className="post-img" />
+                                    <h2 className="category">Rugby</h2>
+                                    <Link to={`/blog/${blog.id}`} className="post-title">{blog.title}</Link>
+                                    <span className="post-date">{blog.createdAt}</span>
+                                    <p className="post-description">{blog.content}.</p>
+                                    <div className="profile">
+                                        <img src={test1} alt="" className="profile-img" />
+                                        <span className="profile-name">Mwas</span>
+                                    </div>
                                 </div>
-                            </div>
                             )
                         })}
+                        {/*
                         <div className="post-box Rugby">
                             <img src={img1} alt="" className="post-img" />
                             <h2 className="category">Rugby</h2>
@@ -260,7 +264,7 @@ function App() {
                                 <img src={testi1} alt="" className="profile-img" />
                                 <span className="profile-name">Mwas</span>
                             </div>
-                        </div>
+                    </div>*/}
                     </div>
 
                     <footer className='page'>
