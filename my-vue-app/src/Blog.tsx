@@ -180,7 +180,7 @@ export default function Blog() {
           Ace <span>Sports</span>
         </a>
 
-        <Button className="login" onClick={onOpen}>
+        <Button  onClick={onOpen}>
           login
         </Button>
       </div>
