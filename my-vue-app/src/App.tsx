@@ -1,131 +1,308 @@
-import './App.css'
+import "./App.css";
 import about from "./assets/images/about.png";
-import img1 from "./assets/images/img1.jpg";
-import test1 from "./assets/images/testi1.jpg"
-import img2 from "./assets/images/img2.jpg"
+import img1 from "./assets/images/img20.jpg";
+import test1 from "./assets/images/testi1.jpg";
+import img2 from "./assets/images/img2.jpg";
 import img2i from "./assets//images/testi1.jpg";
 import img3 from "./assets/images/img3.jpg";
 import img4 from "./assets/images/img4.jpg";
-import img5 from "./assets/images/img5.jpg"
-import img6 from "./assets/images/img6.jpg"
+import img5 from "./assets/images/img5.jpg";
+import img6 from "./assets/images/img6.jpg";
 import img8 from "./assets/images/img8.jpg";
 import img7 from "./assets/images/img7.jpg";
 import img10 from "./assets/images/img10.jpg";
 import testi1 from "./assets/images/testi1.jpg";
 import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    Button,
-    Input,
-    ModalCloseButton, useDisclosure,
-} from '@chakra-ui/react';
-import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Button,
+  Input,
+  ModalCloseButton,
+  useDisclosure,
+  Center,
+  InputRightElement,
+  InputGroup,
+  useToast,
+} from "@chakra-ui/react";
+import {
+  JSXElementConstructor,
+  ReactElement,
+  ReactFragment,
+  ReactPortal,
+  useEffect,
+  useState,
+} from "react";
+import { Link } from "react-router-dom";
+import { Link as LinkChakra } from "@chakra-ui/react";
 
 function App() {
-    const [blogs, setBlogs] = useState<[]>();
-    useEffect(() => {
-        fetch("http://localhost:3001/blogs").then(data =>
-            data.json()
-        ).then(data => {
-            console.log(data);
-            setBlogs(data.posts)
-        })
-    }, [])
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    return (
-        <div className="App">
-            <>
+  const toast = useToast();
+  const [blogs, setBlogs] = useState<[]>();
+  const [show, setShow] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleClick = () => setShow(!show);
+  useEffect(() => {
+    let token = sessionStorage.getItem("token")
+    if(!token){
+      onOpen()
+    }
+    fetch("http://localhost:3001/blogs")
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(data);
+        setBlogs(data.posts);
+      });
+  }, []);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <div className="App">
+      <>
+        <Modal colorScheme={"blackAlpha"} isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader color={"black"}>
+              {isSignIn ? "SignIn" : "SignUp"}
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Input
+                m={3}
+                placeholder="Email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+              <InputGroup m={3}>
+                <Input
+                  pr="4.5rem"
+                  type={show ? "text" : "password"}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  placeholder="Enter password"
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={handleClick}>
+                    {show ? "Hide" : "Show"}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
 
+              <Center>
+                {" "}
+                <LinkChakra
+                  onClick={() => {
+                    setIsSignIn((isSignIn) => !isSignIn);
+                  }}
+                >
+                  {isSignIn ? "SignUp?" : "SignIn?"}
+                </LinkChakra>
+              </Center>
+            </ModalBody>
 
-                <Modal colorScheme={"blackAlpha"} isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader color={"black"}>Sign In</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                            <Input m={3} placeholder='Email' />
-                            <Input m={3} placeholder='Password' />
-                        </ModalBody>
+            <ModalFooter color={"white"}>
+              <Button colorScheme="blue" mr={3} onClick={onClose}>
+                Close
+              </Button>
+              <Button
+                colorScheme="blue"
+                onClick={() => {
+                  if (isSignIn) {
+                    fetch("http://localhost:3001/signin", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        email: email,
+                        password: password,
+                      }),
+                    })
+                      .then((data) => data.json())
+                      .then((data) => {
+                        console.log(data);
+                        if (data.status == "error user not found") {
+                          toast({
+                            status: "error",
+                            duration: 1000,
+                            title: "Error",
+                            description: data.status,
+                          });
+                        } else {
+                          sessionStorage.setItem("token", data.token);
+                          toast({
+                            status: "success",
+                            duration: 1000,
+                            title: "Success",
+                            description: data.status,
+                          });
+                        }
+                      });
+                  } else {
+                    fetch("http://localhost:3001/signup", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        email: email,
+                        password: password,
+                      }),
+                    })
+                      .then((data) => data.json())
+                      .then((data) => {
+                        console.log(data);
+                        if (data.status == "error") {
+                          toast({
+                            status: "error",
+                            duration: 1000,
+                            title: "Error",
+                            isClosable: true,
+                            description: data.status,
+                          });
+                        } else {
+                          sessionStorage.setItem("token", data.token);
+                          toast({
+                            status: "success",
+                            duration: 1000,
+                            title: "Success",
+                            isClosable: true,
+                            description: data.status,
+                          });
+                        }
+                      });
+                  }
+                }}
+              >
+                {" "}
+                {isSignIn ? "SignIn" : "SignUp"}
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </>
+      <html lang="en">
+        <head>
+          <meta charSet="UTF-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <title>Ace Sports</title>
 
-                        <ModalFooter color={"white"}>
-                            <Button colorScheme='blue' mr={3} onClick={onClose}>
-                                Close
-                            </Button>
-                            <Button colorScheme='blue'>Login</Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            </>
-            <html lang="en">
+          <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+          />
+          <link rel="stylesheet" href="/public/style.css" />
+        </head>
 
+        <body>
+          <div className="nav container">
+            <a href="#" className="logo">
+              Ace <span>Sports</span>
+            </a>
 
-                <head>
-                    <meta charSet="UTF-8" />
-                    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                    <title>Ace Sports</title>
+            <Button className="login" onClick={onOpen}>
+              login
+            </Button>
+          </div>
 
-                    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
-                    <link rel="stylesheet" href="/public/style.css" />
-                </head>
+          <section className="home" id="home">
+            <div className="home-text container">
+              <h2 className="home-title">Ace Sports</h2>
+              <span className="home-subtitle">
+                Your source of great content
+              </span>
+            </div>
+          </section>
 
-                <body>
+          <section className="about container" id="about">
+            <div className="contentBx">
+              <h2 className="titleText">Catch up with the trending topics</h2>
+              <p className="title-text">
+                Do you enjoy watching games and discussing the latest scores and
+                highlights? If so, you've come to the right place! At Ace
+                Sports, we're dedicated to providing our readers with the latest
+                news and insights from the world of sports. From football and
+                basketball to rugby, and beyond, we cover it all.
+                <br />
+                Our team of writers and contributors are experienced sports
+                enthusiasts who are passionate about their craft. They work
+                tirelessly to bring you the most accurate and up-to-date
+                information, as well as in-depth analysis and commentary on the
+                biggest games and stories of the day. Whether you're a casual
+                fan or a die-hard supporter, we've got you covered.
+              </p>
+              <a href="#" className="btn2">
+                Read more
+              </a>
+            </div>
+            <div className="imgBx">
+              <img src={about} alt="" className="fitBg" />
+            </div>
+          </section>
 
-                    <div className="nav container">
-                        <a href="#" className="logo">Ace <span>Sports</span></a>
-
-                        <Button className="login" onClick={onOpen}>login</Button>
-
+          <div className="post container">
+            {blogs?.map(
+              (
+                blog: {
+                  id: any;
+                  title:
+                    | string
+                    | number
+                    | boolean
+                    | ReactElement<any, string | JSXElementConstructor<any>>
+                    | ReactFragment
+                    | ReactPortal
+                    | null
+                    | undefined;
+                  createdAt:
+                    | string
+                    | number
+                    | boolean
+                    | ReactElement<any, string | JSXElementConstructor<any>>
+                    | ReactFragment
+                    | ReactPortal
+                    | null
+                    | undefined;
+                  content:
+                    | string
+                    | number
+                    | boolean
+                    | ReactElement<any, string | JSXElementConstructor<any>>
+                    | ReactFragment
+                    | ReactPortal
+                    | null
+                    | undefined;
+                },
+                index: any
+              ) => {
+                return (
+                  <div className="post-box Rugby">
+                    <img src={img1} alt="" className="post-img" />
+                    <h2 className="category">Rugby</h2>
+                    <Link to={`/blog/${blog.id}`} className="post-title">
+                      {blog.title}
+                    </Link>
+                    <span className="post-date">{blog.createdAt}</span>
+                    <p className="post-description">{blog.content}.</p>
+                    <div className="profile">
+                      <img src={test1} alt="" className="profile-img" />
+                      <span className="profile-name">Mwas</span>
                     </div>
-
-
-                    <section className="home" id="home">
-                        <div className="home-text container">
-                            <h2 className="home-title">Ace Sports</h2>
-                            <span className="home-subtitle">Your source of great content</span>
-                        </div>
-                    </section>
-
-                    <section className="about container" id="about">
-                        <div className="contentBx">
-                            <h2 className="titleText">Catch up with the trending topics</h2>
-                            <p className="title-text">
-                                Do you enjoy watching games and discussing the latest scores and highlights? If so, you've come to the right place! At Ace Sports, we're dedicated to providing our readers with the latest news and insights from the world of sports. From football and basketball to rugby, and beyond, we cover it all.
-                                <br />Our team of writers and contributors are experienced sports enthusiasts who are passionate about their craft. They work tirelessly to bring you the most accurate and up-to-date information, as well as in-depth analysis and commentary on the biggest games and stories of the day. Whether you're a casual fan or a die-hard supporter, we've got you covered.
-                            </p>
-                            <a href="#" className="btn2">Read more</a>
-                        </div>
-                        <div className="imgBx">
-                            <img src={about} alt="" className="fitBg" />
-                        </div>
-                    </section>
-
-
-
-                    <div className="post container">
-                        {blogs?.map((blog: {
-                            id: any; title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; createdAt: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined;
-                        }, index: any) => {
-                            return (
-                                <div className="post-box Rugby">
-                                    <img src={img1} alt="" className="post-img" />
-                                    <h2 className="category">Rugby</h2>
-                                    <Link to={`/blog/${blog.id}`} className="post-title">{blog.title}</Link>
-                                    <span className="post-date">{blog.createdAt}</span>
-                                    <p className="post-description">{blog.content}.</p>
-                                    <div className="profile">
-                                        <img src={test1} alt="" className="profile-img" />
-                                        <span className="profile-name">Mwas</span>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                        {/*
+                  </div>
+                );
+              }
+            )}
+            {/*
                         <div className="post-box Rugby">
                             <img src={img1} alt="" className="post-img" />
                             <h2 className="category">Rugby</h2>
@@ -265,52 +442,88 @@ function App() {
                                 <span className="profile-name">Mwas</span>
                             </div>
                     </div>*/}
-                    </div>
+          </div>
 
-                    <footer className='page'>
-                        <div className="footer-container">
-                            <div className="sec aboutus">
-                                <h2>About Us</h2>
-                                <p>Welcome to Ace Sports where I'll be covering the latest news, scores, and updates from the world of sports. Stay tuned for daily posts and analysis.</p>
-                                <ul className="sci">
-                                    <li><a href="#"><i className="bx bxl-facebook"></i></a></li>
-                                    <li><a href="#"><i className="bx bxl-instagram"></i></a></li>
-                                    <li><a href="#"><i className="bx bxl-twitter"></i></a></li>
-                                    <li><a href="#"><i className="bx bxl-linkedin"></i></a></li>
-                                </ul>
-                            </div>
-                            <div className="sec quicklinks">
-                                <h2>Quick Links</h2>
-                                <ul>
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">About</a></li>
-                                </ul>
-                            </div>
-                            <div className="sec contactBx">
-                                <h2>Contact Info</h2>
-                                <ul className="info">
-                                    <li>
-                                        <span><i className='bx bxs-map'></i></span>
-                                        <span>Ushirika rd <br /> Karen <br /> NBO</span>
-                                    </li>
-                                    <li>
-                                        <span><i className='bx bx-envelope'></i></span>
-                                        <p><a href="mailto:Acesports@gmail.com">Acesports@gmail.com</a></p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </footer>
+          <footer className="page">
+            <div className="footer-container">
+              <div className="sec aboutus">
+                <h2>About Us</h2>
+                <p>
+                  Welcome to Ace Sports where I'll be covering the latest news,
+                  scores, and updates from the world of sports. Stay tuned for
+                  daily posts and analysis.
+                </p>
+                <ul className="sci">
+                  <li>
+                    <a href="#">
+                      <i className="bx bxl-facebook"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i className="bx bxl-instagram"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i className="bx bxl-twitter"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i className="bx bxl-linkedin"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className="sec quicklinks">
+                <h2>Quick Links</h2>
+                <ul>
+                  <li>
+                    <a href="#">Home</a>
+                  </li>
+                  <li>
+                    <a href="#">About</a>
+                  </li>
+                </ul>
+              </div>
+              <div className="sec contactBx">
+                <h2>Contact Info</h2>
+                <ul className="info">
+                  <li>
+                    <span>
+                      <i className="bx bxs-map"></i>
+                    </span>
+                    <span>
+                      Ushirika rd <br /> Karen <br /> NBO
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      <i className="bx bx-envelope"></i>
+                    </span>
+                    <p>
+                      <a href="mailto:Acesports@gmail.com">
+                        Acesports@gmail.com
+                      </a>
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </footer>
 
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
-                        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
-                        crossOrigin="anonymous" referrerPolicy="no-referrer"></script>
-                    <script src="../public/main.js"></script>
-                </body>
-
-            </html>
-        </div>
-    )
+          <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+            crossOrigin="anonymous"
+            referrerPolicy="no-referrer"
+          ></script>
+          <script src="../public/main.js"></script>
+        </body>
+      </html>
+    </div>
+  );
 }
 
-export default App
+export default App;
