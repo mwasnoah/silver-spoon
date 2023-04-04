@@ -209,9 +209,16 @@ function App() {
             <a href="#" className="logo">
               Ace <span>Sports</span>
             </a>
+            <Button>
+            <a href="/admin" className="logo">
+            admin
+            </a>
+              </Button>
 
-            <Button className="login" onClick={onOpen}>
-              login
+            <Button onClick={onOpen}>
+            <a href="#" className="logo">
+            login
+            </a>
             </Button>
           </div>
 
