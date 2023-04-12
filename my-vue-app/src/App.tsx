@@ -20,6 +20,7 @@ import {
   ModalFooter,
   ModalBody,
   Button,
+  Avatar,
   Input,
   ModalCloseButton,
   useDisclosure,
@@ -48,9 +49,9 @@ function App() {
   const [password, setPassword] = useState("");
   const handleClick = () => setShow(!show);
   useEffect(() => {
-    let token = sessionStorage.getItem("token")
-    if(!token){
-      onOpen()
+    let token = sessionStorage.getItem("token");
+    if (!token) {
+      onOpen();
     }
     fetch("http://localhost:3001/blogs")
       .then((data) => data.json())
@@ -107,6 +108,11 @@ function App() {
             </ModalBody>
 
             <ModalFooter color={"white"}>
+              <Button colorScheme="blue" m={3} mr={20}>
+                <a href="/admin" className="logo">
+                  admin
+                </a>
+              </Button>
               <Button colorScheme="blue" mr={3} onClick={onClose}>
                 Close
               </Button>
@@ -209,16 +215,11 @@ function App() {
             <a href="#" className="logo">
               Ace <span>Sports</span>
             </a>
-            <Button>
-            <a href="/admin" className="logo">
-            admin
-            </a>
-              </Button>
 
             <Button onClick={onOpen}>
-            <a href="#" className="logo">
-            login
-            </a>
+              <a href="#" className="logo">
+                login
+              </a>
             </Button>
           </div>
 
@@ -248,9 +249,7 @@ function App() {
                 biggest games and stories of the day. Whether you're a casual
                 fan or a die-hard supporter, we've got you covered.
               </p>
-              <a href="#" className="btn2">
-                Read more
-              </a>
+              
             </div>
             <div className="imgBx">
               <img src={about} alt="" className="fitBg" />
@@ -292,17 +291,21 @@ function App() {
                 },
                 index: any
               ) => {
+                const date = new Date(blog.createdAt)
                 return (
                   <div className="post-box Rugby">
                     <img src={img1} alt="" className="post-img" />
-                    <h2 className="category">Rugby</h2>
+                   
                     <Link to={`/blog/${blog.id}`} className="post-title">
                       {blog.title}
                     </Link>
-                    <span className="post-date">{blog.createdAt}</span>
+                    <span className="post-date">{date.toLocaleString()}</span>
                     <p className="post-description">{blog.content}.</p>
                     <div className="profile">
-                      <img src={test1} alt="" className="profile-img" />
+                    <Avatar  src='https://bitly/dan-abramov' />
+
+
+                     
                       <span className="profile-name">Mwas</span>
                     </div>
                   </div>
@@ -455,7 +458,7 @@ function App() {
             <div className="footer-container">
               <div className="sec aboutus">
                 <h2>About Us</h2>
-                <p>
+                <p className="welcome">
                   Welcome to Ace Sports where I'll be covering the latest news,
                   scores, and updates from the world of sports. Stay tuned for
                   daily posts and analysis.

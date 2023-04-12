@@ -361,7 +361,7 @@ footer .page > p{
 }
 
 .quicklinks ul li a:hover{
-    color: #fff;
+    color: #5c1d1d;
 }
 
 .footer-container .contactBx{
@@ -393,9 +393,11 @@ footer .page > p{
     text-decoration: none;
     transition: .5s;
 }
-
+.welcome{
+    margin:27px
+}
 .contactBx .info li a:hover{
-    color: #fff;
+    color: #812c2c;
 }
 
 @media (max-width: 1060px){

@@ -41,7 +41,7 @@ export default function Blog() {
   console.log(location.pathname.split("/")?.[2]);
   const handleClick = () => setShow(!show);
   const [blog, setBlog] = useState();
-  console.log(blog)
+  console.log(blog);
   useEffect(() => {
     fetch(`http://localhost:3001/getBlog/${id}`)
       .then((data) => data.json())
@@ -180,19 +180,17 @@ export default function Blog() {
           Ace <span>Sports</span>
         </a>
 
-        <Button  onClick={onOpen}>
-          login
-        </Button>
+        <Button onClick={onOpen}>login</Button>
       </div>
       <Card align="center">
         <CardHeader>
           <Heading size="md"> {blog?.title}</Heading>
         </CardHeader>
         <CardBody>
-          <Text>{blog?.content}</Text>
+          <Text fontSize='sm'>{blog?.content}</Text>
         </CardBody>
 
-        <Textarea
+        <Textarea m={2}
           onChange={(e) => {
             setComment(e.target.value);
           }}
@@ -223,7 +221,6 @@ export default function Blog() {
                       description: data.status,
                     });
                   } else {
-                   
                     toast({
                       status: "success",
                       duration: 1000,
@@ -239,16 +236,17 @@ export default function Blog() {
           </Button>
         </CardFooter>
       </Card>
-      {blog?.Comment?.map((val,index)=>{
-        return(
-        <Flex m={3} flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-        <Avatar name='Segun Adebayo' src='' />
+      {blog?.Comment?.map((val, index) => {
+        return (
+          <Flex m={3} flex="1" gap="4" alignItems="center" flexWrap="wrap">
+            <Avatar name="Segun Adebayo" src="" />
 
-        <Box>
-          <Heading size='sm'>Comment</Heading>
-          <Text>{val.content}</Text>
-        </Box>
-      </Flex>)
+            <Box>
+              <Heading size="sm">Comment</Heading>
+              <Text>{val.content}</Text>
+            </Box>
+          </Flex>
+        );
       })}
     </>
   );

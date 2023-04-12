@@ -29,9 +29,9 @@ server.use(
 server.use(express.static(staticDir));
 
 server.post("/addBlog", async (req, res) => {
-  console.log({ url: req.url, body: req.body });
+  console.log({ url: req.url, body: req.body,image:req?.body?.image });
   const post = await prisma.posts.create({
-    data: { title: req.body.title, content: req.body.content },
+    data: { title: req.body.title, content: req.body.content, },
   });
 
   if (post) {
