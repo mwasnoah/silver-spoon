@@ -291,7 +291,7 @@ function App() {
                 },
                 index: any
               ) => {
-                const date = new Date(blog.createdAt)
+                const date = new Date(blog?.createdAt)
                 return (
                   <div className="post-box Rugby">
                     <img src={img1} alt="" className="post-img" />
